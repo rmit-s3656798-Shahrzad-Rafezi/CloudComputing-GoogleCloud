@@ -3,7 +3,7 @@
 use Google\Cloud\Datastore\DatastoreClient;
 
 session_start();
-if($_SERVER["REQUEST_METHOD"] === "POST"){
+if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     //sets up database
     $data_store = new DatastoreClient();
@@ -13,38 +13,24 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     $id = $_POST['id'];
     $password = $_POST['password'];
 
-    //defines the query
+//defines the query
     $query = $data_store->query()
         ->kind('User')
         ->filter('id', '=', $id)
         ->filter('password', '=', $password);
 
-    //runs the query
+//runs the query
     $result = $data_store->runQuery($query);
 
-	//$pdo = new PDO("mysql:dbname=voipData;host=127.0.0.1","root","Cisco99");
-	//$q = $pdo->prepare("SELECT * FROM `users` WHERE userName=?");
-	//$q->execute([$_POST["userName"]]);0
-	//$a = $q->fetch(PDO::FETCH_ASSOC);
-
-
-	if ($result){
-//		$_SESSION["loggedIn"]=true;
-//		$_SESSION["timeout"] = time();
-//		$_SESSION["userName"]=$_POST["userName"];
-//		header("Location: ".$a["currentPage"].".php");
-        $complete = "<h3>You have logged in!</h3>";
-        return $complete;
-	}
-
-	else
-		$error = "<h3>Incorrect User ID or Password</h3>";
-}
-
-else{
-	$_SESSION["loggedIn"]=false;
-	$_SESSION["userName"]=0;
-	$error = "<br/>";
+    if ($result){
+        if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+            $_SESSION["loggedin"] = true;
+            $_SESSION["id"] = $id;
+            header("location: main.php");
+        }
+    }
+    else
+        $error = "<h3>Incorrect User ID or Password</h3>";
 }
 
 ?>
@@ -54,7 +40,7 @@ else{
 
 <head>
     <link type="text/css" rel="stylesheet" href="login.css" />
-    <title>RSC Subject Selection</title>
+    <title>Login Page</title>
 </head>
 
 <body>
