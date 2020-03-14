@@ -41,7 +41,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
     foreach ($result as $index => $user) {
-        //print $user["id"] . ", " . $user["name"] . ", " . $user["password"] . "<br/>";
         if($user['id'] == $_POST['id'] && $user['password'] == $_POST['password']) {
             header("location:main");
         }
