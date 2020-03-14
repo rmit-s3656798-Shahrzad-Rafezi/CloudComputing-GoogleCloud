@@ -4,37 +4,39 @@ use Google\Cloud\Datastore\DatastoreClient;
 
 session_start();
 if($_SERVER["REQUEST_METHOD"] === "POST"){
-    
+
     //sets up database
-    $datastore = new DatastoreClient();
-    $user1 = $datastore->entity('User', ['id' => 's3656798', 'name' => 'Shahrzad Rafezi', 'password' => 123456]);
-    $datastore->insert($user1);
+    $data_store = new DatastoreClient();
+    $user1 = $data_store->entity('User', ['id' => 's3656798', 'name' => 'Shahrzad Rafezi', 'password' => 123456]);
+    $data_store->insert($user1);
 
     $id = $_POST['id'];
     $password = $_POST['password'];
 
     //defines the query
-    $query = $datastore->query()
+    $query = $data_store->query()
         ->kind('User')
         ->filter('id', '=', $id)
         ->filter('password', '=', $password);
-    
+
     //runs the query
-    $result = $datastore->runQuery($query);
-    
+    $result = $data_store->runQuery($query);
+
 	//$pdo = new PDO("mysql:dbname=voipData;host=127.0.0.1","root","Cisco99");
 	//$q = $pdo->prepare("SELECT * FROM `users` WHERE userName=?");
 	//$q->execute([$_POST["userName"]]);0
 	//$a = $q->fetch(PDO::FETCH_ASSOC);
 
 
-	if ($a["id"] != "" && $a["password"] != "" && $a["password"] == $_POST["password"]){
-		$_SESSION["loggedIn"]=true;
-		$_SESSION["timeout"] = time();
-		$_SESSION["userName"]=$_POST["userName"];
-		header("Location: ".$a["currentPage"].".php");
+	if ($result){
+//		$_SESSION["loggedIn"]=true;
+//		$_SESSION["timeout"] = time();
+//		$_SESSION["userName"]=$_POST["userName"];
+//		header("Location: ".$a["currentPage"].".php");
+        $complete = "<h3>You have logged in!</h3>";
+        return $complete;
 	}
-    
+
 	else
 		$error = "<h3>Incorrect User ID or Password</h3>";
 }
