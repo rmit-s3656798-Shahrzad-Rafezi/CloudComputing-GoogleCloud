@@ -59,12 +59,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $id = $_POST['id'];
     $password = $_POST['password'];
-
+    
 //defines the query
-    $query = $data_store->query()
-        ->kind('User')
-        ->filter('id', '=', $id)
-        ->filter('password', '=', $password);
+    $query = $data_store->gqlQuery("SELECT * FROM User WHERE id = '$id' and password = '$password' ");
 
 //runs the query
     $result = $data_store->runQuery($query);
