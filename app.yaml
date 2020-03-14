@@ -2,5 +2,7 @@ runtime: php55
 api_version: 1
 
 handlers:
-- url: /.*
-  script: login.php
+  - url: /main
+    script: main.php
+  - url: /.*
+    script: login.php

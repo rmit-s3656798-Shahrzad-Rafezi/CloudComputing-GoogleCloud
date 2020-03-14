@@ -58,26 +58,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     //saves the entity
     $data_store->upsert($user1);
 
-    $id = $_POST['id'];
-    $password = $_POST['password'];
+    //$id = $_POST['id'];
+    //$password = $_POST['password'];
 
 //defines the query
     //$query = $data_store->gqlQuery("SELECT * FROM User WHERE id = '$id' and password = '$password' ");
 
     $query = $data_store->gqlQuery("SELECT * FROM User");
-
     $result = $data_store->runQuery($query);
 
 //runs the query
     //$result = $data_store->runQuery($query);
 
-        if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-            $_SESSION["loggedin"] = true;
-            $_SESSION["id"] = $id;
-            header("location: main.php");
+    foreach ($result as $index => $user) {
+        //print $user["id"] . ", " . $user["name"] . ", " . $user["password"] . "<br/>";
+        if($user['id'] == $_POST['id'] && $user['password'] == $_POST['password']) {
+            header("location:main");
         }
         else
-            $error = "<h3>Incorrect User ID or Password</h3>";
+            print $error = "<h3>Incorrect User ID or Password</h3>";
+    }
 }
 
 ?>
@@ -91,11 +91,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <body>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <label for="userid">User ID</label>
+        <label>User ID</label>
         <input type="string" name="id" placeholder="Enter User ID" />
         <br />
-        <label for="userid">Password</label>
-        <input type="password" name="password" placeholder="Enter User ID" />
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter Password" />
         <br />
         <input type="submit" value="Login" />
     </form>
