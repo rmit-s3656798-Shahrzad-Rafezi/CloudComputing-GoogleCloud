@@ -39,6 +39,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     //sets up database
     $data_store = new DatastoreClient([
+        'keyFilePath' => 's3656798-cc2020-6770f1694940.json',
         'projectId' => $projectId
     ]);
 
@@ -59,22 +60,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $id = $_POST['id'];
     $password = $_POST['password'];
-    
-//defines the query
-    $query = $data_store->gqlQuery("SELECT * FROM User WHERE id = '$id' and password = '$password' ");
 
-//runs the query
+//defines the query
+    //$query = $data_store->gqlQuery("SELECT * FROM User WHERE id = '$id' and password = '$password' ");
+
+    $query = $data_store->gqlQuery("SELECT * FROM User");
+
     $result = $data_store->runQuery($query);
 
-    if (array_key_exists($userKey, $_POST)){
+//runs the query
+    //$result = $data_store->runQuery($query);
+
         if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
             $_SESSION["loggedin"] = true;
             $_SESSION["id"] = $id;
             header("location: main.php");
         }
-    }
-    else
-        $error = "<h3>Incorrect User ID or Password</h3>";
+        else
+            $error = "<h3>Incorrect User ID or Password</h3>";
 }
 
 ?>
@@ -89,10 +92,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <label for="userid">User ID</label>
-        <input type="string" name="userid" id="userid" placeholder="Enter User ID" />
+        <input type="string" name="id" placeholder="Enter User ID" />
         <br />
         <label for="userid">Password</label>
-        <input type="password" name="password" id="password" />
+        <input type="password" name="password" placeholder="Enter User ID" />
         <br />
         <input type="submit" value="Login" />
     </form>
