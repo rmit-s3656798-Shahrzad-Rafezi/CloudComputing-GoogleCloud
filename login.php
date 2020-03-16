@@ -27,11 +27,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     //The Cloud Datastore key for the new entity
     $userKey = $data_store->key($kind, $name);
 
-    //Prepares the new entity
-    $user1= $data_store->entity($userKey, ['id' => 's3656798', 'name' => 'Shahrzad Rafezi', 'password' => 123456]);
+    //Creates the new entity
+    $entity = $data_store->entity($userKey,
+        [
+                'id' => 's3656798',
+                'name' => 'Shahrzad Rafezi',
+                'password' => 123456
+        ]
+    );
 
     //saves the entity
-    $data_store->upsert($user1);
+    $data_store->upsert($entity);
 
     //defines the query
     $query = $data_store->gqlQuery("SELECT * FROM User");
@@ -39,13 +45,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     //runs the query
     $result = $data_store->runQuery($query);
 
+    if( isset($_POST['id']) && isset($_POST['password']) && (empty($_POST['password']) || empty($_POST['id'])) ){
+        echo "<h3>ID and Password cannot be empty</h3>";
+    }
 
-    foreach ($result as $index => $user) {
-        if($user['id'] == $_POST['id'] && $user['password'] == $_POST['password']) {
-            header("location:main");
+    elseif ( isset($_POST['id']) && isset($_POST['password']) ) {
+
+        foreach ($result as $properties => $users) {
+            //print $users["id"] . ", " . $users["name"] . ", " . $users["password"] . "<br/>";
+            if ( $_POST['id'] == $users['id']  &&  $_POST['password'] == $users['password'] ) {
+                $_SESSION['authenticated'] = true;
+                //$_SESSION['id'] = $users['name'];
+                echo "<script type='text/javascript'> window.location='/main'; </script>";
+                break;
+            }
         }
-        else
-            print "<h3>Incorrect User ID or Password</h3>";
+        if( $_POST['id'] != $users['id']  &&  $_POST['password'] != $users['password'] ) {
+            echo "<h3>Incorrect Password or ID</h3>";
+        }
     }
 }
 

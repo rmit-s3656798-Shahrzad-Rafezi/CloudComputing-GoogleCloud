@@ -63,7 +63,6 @@ try {
 	//saves the entity
 	//$data_store->upsert($user1);
 
-
 	//////////////////////
 	// Select
 	/////////////////////
