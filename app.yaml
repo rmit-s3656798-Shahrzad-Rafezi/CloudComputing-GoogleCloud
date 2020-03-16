@@ -4,5 +4,9 @@ api_version: 1
 handlers:
   - url: /main
     script: main.php
+  - url: /name
+    script: name.php
+  - url: /password
+    script: password.php
   - url: /.*
     script: login.php
