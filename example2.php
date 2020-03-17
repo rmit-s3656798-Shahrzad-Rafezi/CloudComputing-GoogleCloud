@@ -37,19 +37,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     );
 
     //saves the entity
-    $data_store->upsert($entity);
+    //$data_store->upsert($entity);
+
+    $id = $_POST['id'];
+    $password = $_POST['password'];
 
     //defines the query
-    $query = $data_store->gqlQuery("SELECT * FROM User");
+    $query = $data_store->gqlQuery("SELECT * FROM User WHERE id = '$id' and password = '$password'");
 
     //runs the query
     $result = $data_store->runQuery($query);
 
-    if( isset($_POST['id']) && isset($_POST['password']) && (empty($_POST['password']) || empty($_POST['id'])) ){
+    if( isset($id) && isset($password) && (empty($id) || empty($password)) ){
         echo "<h3>ID and Password cannot be empty</h3>";
     }
 
-    elseif ( isset($_POST['id']) && isset($_POST['password']) ) {
+    elseif ( isset($id) && isset($password) ) {
 
             if ( empty($result) ) {
                 $_SESSION['authenticated'] = true;
