@@ -50,9 +50,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
     elseif ( isset($_POST['id']) && isset($_POST['password']) ) {
-
         foreach ($result as $properties => $users) {
-            //print $users["id"] . ", " . $users["name"] . ", " . $users["password"] . "<br/>";
             if ( $_POST['id'] == $users['id']  &&  $_POST['password'] == $users['password'] ) {
                 $_SESSION['authenticated'] = true;
                 //$_SESSION['id'] = $users['name'];
