@@ -7,8 +7,6 @@ use Google\Cloud\Datastore\DatastoreClient;
 
 session_start();
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-
     //My Google Cloud Platform project ID
     $projectId = 's3656798-cc2020';
 
@@ -62,7 +60,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo "<h3>Incorrect Password or ID</h3>";
         }
     }
-}
+
 
 ?>
 
