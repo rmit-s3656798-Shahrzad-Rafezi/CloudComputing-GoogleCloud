@@ -51,15 +51,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if( isset($id) && isset($password) && (empty($id) || empty($password)) ){
         echo "<h3>ID and Password cannot be empty</h3>";
     }
-
     elseif ( isset($id) && isset($password) ) {
 
-            if ( empty($result) ) {
-                $_SESSION['authenticated'] = true;
-                //$_SESSION['id'] = $users['name'];
-                echo "<script type='text/javascript'> window.location='/main'; </script>";
-            }
-
+        if ( is_null($result) ) {
+            $_SESSION['authenticated'] = true;
+            //$_SESSION['id'] = $users['name'];
+            echo "<script type='text/javascript'> window.location='/main'; </script>";
+        }
         if( !isset($_SESSION['authenticated']) ) {
             echo "<h3>Incorrect Password or ID</h3>";
         }
