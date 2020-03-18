@@ -1,0 +1,19 @@
+indexes:
+  #SELECT name FROM User WHERE id = $_POST[id] AND password = $_POST[password]
+  - kind: User
+    ancestor: no
+    properties:
+    - name: id
+    - name: password
+      direction: asc
+    - name: name
+      direction: asc
+
+  #SELECT * FROM User WHERE id = $_POST[id] AND password = $_POST[password]
+  - kind: User
+    ancestor: no
+    properties:
+    - name: id
+      direction: asc
+    - name: password
+      direction: asc
