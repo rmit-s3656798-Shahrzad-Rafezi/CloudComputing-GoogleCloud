@@ -9,6 +9,7 @@ if( isset($name) && empty($name) ){
 elseif ( isset($name) ) {
     $entity['name'] = $name;
     $data_store->update($entity);
+    echo "<script type='text/javascript'> window.location='/main'; </script>";
 }
 
 ?>
