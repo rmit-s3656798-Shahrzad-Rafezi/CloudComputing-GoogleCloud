@@ -28,6 +28,7 @@ elseif ( isset($password ) ) {
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <label>Old Password</label>
             <input type="string" name="old_password" placeholder="Enter Old password" />
+            <br />
             <label>New Password</label>
             <input type="string" name="new_password" placeholder="Enter Old password" />
             <input type="submit" value="submit" />
