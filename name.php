@@ -23,11 +23,12 @@ elseif ( isset($name) ) {
 
     <body>
 
-        <h3>Success Name Page!</h3>
+        <h3>Change Your Name Here</h3>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <label>Name</label>
             <input type="string" name="name" placeholder="Enter name" />
+            <br />
             <input type="submit" value="submit" />
         </form>
 
