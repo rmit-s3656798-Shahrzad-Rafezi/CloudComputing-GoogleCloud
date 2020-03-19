@@ -6,11 +6,18 @@ if( isset($password ) && empty($password ) ){
     echo "<h3>password cannot be empty</h3>";
 }
 
-//will have to a query to look into database to see if the old password exists. if yes, then update the password.
+//will have to do a query to look into database to see if the old password exists. if yes, then update the password.
 elseif ( isset($password ) ) {
-    $entity['password'] = $_POST['new_password'];
-    $data_store->update($entity);
-    echo "<script type='text/javascript'> window.location='/login'; </script>";
+    foreach ($result as $properties => $users) {
+        if ( $password == $users['password'] ){
+            $entity['password'] = $_POST['new_password'];
+            $data_store->update($entity);
+            echo "<script type='text/javascript'> window.location='/login'; </script>";
+        }
+    }
+    if( $password != $users['password'] ) {
+        echo "<h3>Incorrect Password</h3>";
+    }
 }
 
 ?>
@@ -19,11 +26,11 @@ elseif ( isset($password ) ) {
 <html>
 
     <head>
-        <title>Main Page</title>
+        <title>Password Page</title>
     </head>
 
     <body>
-    
+
         <h3>Change Your Password Here</h3>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
