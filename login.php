@@ -48,20 +48,21 @@ session_start();
     }
 
     elseif ( isset($_POST['id']) && isset($_POST['password']) ) {
+
         foreach ($result as $properties => $users) {
+
             if ( $_POST['id'] == $users['id']  &&  $_POST['password'] == $users['password'] ) {
                 $_SESSION['authenticated'] = true;
-                //$_SESSION['id'] = $users['name'];
+                $_SESSION['name'] = $users['name'];
                 echo "<script type='text/javascript'> window.location='/main'; </script>";
                 break;
             }
         }
+
         if( $_POST['id'] != $users['id']  &&  $_POST['password'] != $users['password'] ) {
             echo "<h3>Incorrect Password or ID</h3>";
         }
     }
-
-
 ?>
 
 <!DOCTYPE html>
