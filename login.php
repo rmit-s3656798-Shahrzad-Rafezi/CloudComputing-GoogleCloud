@@ -26,19 +26,27 @@ session_start();
     $userKey = $data_store->key($kind, $name);
 
     //Creates the new entity
-    //$entity = $data_store->entity($userKey,
-    //    [
-    //            'id' => 's3656798',
-    //            'name' => 'Shahrzad Rafezi',
-    //            'password' => 123456
-    //    ]
-    //);
+    $entity = $data_store->entity($userKey,
+        [
+                'id' => 's3656798',
+                'name' => 'Shahrzad Rafezi',
+                'password' => 123456
+        ]
+    );
 
     //saves the entity
     //$data_store->upsert($entity);
 
+    $id = $_POST['id'];
+    $password = (int)$_POST['password'];
+
+    $query = $data_store->query()->kind('User');
+
     //defines the query
-    $query = $data_store->gqlQuery("SELECT * FROM User");
+    $query = $data_store->query()
+        ->kind('User')
+        ->filter('id', '=', $id)
+        ->filter('password', '=', $password);
 
     //runs the query
     $result = $data_store->runQuery($query);
