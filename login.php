@@ -60,7 +60,7 @@ session_start();
         foreach ($result as $properties => $users) {
 
             if ( $_POST['id'] == $users['id']  &&  $_POST['password'] == $users['password'] ) {
-                $_SESSION['authenticated'] = true;
+                $_SESSION['authenticated'] = $users['id'];
                 $_SESSION['name'] = $users['name'];
                 echo "<script type='text/javascript'> window.location='/main'; </script>";
                 break;
@@ -81,7 +81,7 @@ session_start();
 </head>
 
 <body>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <form action="#" method="post">
         <label>User ID</label>
         <input type="string" name="id" placeholder="Enter User ID" />
         <br />
