@@ -22,11 +22,8 @@ if( isset($name) && empty($name) ){
 }
 
 elseif ( isset($name) ) {
-    
+
     $query = $data_store->gqlQuery('SELECT * FROM User WHERE id = @id', ['bindings'=>['id'=>$_SESSION['authenticated']]]);
-
-    $result = $data_store->runQuery($query);
-
     $result = $data_store->runQuery($query);
 
     foreach ($result as $users) {
