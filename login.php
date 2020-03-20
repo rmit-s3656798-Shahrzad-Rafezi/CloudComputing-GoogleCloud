@@ -51,23 +51,23 @@ session_start();
     //runs the query
     $result = $data_store->runQuery($query);
 
-    if( isset($_POST['id']) && isset($_POST['password']) && (empty($_POST['password']) || empty($_POST['id'])) ){
+    if( isset($id) && isset($password) && (empty($id) || empty($password)) ){
         echo "<h3>ID and Password cannot be empty</h3>";
     }
 
-    elseif ( isset($_POST['id']) && isset($_POST['password']) ) {
+    elseif ( isset($id) && isset($password) ) {
 
         foreach ($result as $properties => $users) {
 
-            if ( $_POST['id'] == $users['id']  &&  $_POST['password'] == $users['password'] ) {
+            if ( $id == $users['id']  &&  $password == $users['password'] ) {
                 $_SESSION['authenticated'] = $users['id'];
                 $_SESSION['name'] = $users['name'];
-                echo "<script type='text/javascript'> window.location='/main'; </script>";
-                break;
+                header('Location: /main');
+                die();
             }
         }
 
-        if( $_POST['id'] != $users['id']  &&  $_POST['password'] != $users['password'] ) {
+        if( $id != $users['id']  &&  $password != $users['password'] ) {
             echo "<h3>Incorrect Password or ID</h3>";
         }
     }
