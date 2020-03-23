@@ -20,27 +20,25 @@ if( isset( $password ) && empty( $password ) ){
     echo "<h3>password cannot be empty</h3>";
 }
 
-elseif ( isset( $password ) ) {
+elseif( isset($password) ){
 
-    $query = $data_store->gqlQuery('SELECT * FROM User WHERE id = @id', ['bindings'=>['id'=>$_SESSION['authenticated']]]);
-    $result = $data_store->runQuery($query);
+    $key = $data_store->key('User', $_SESSION['authenticated']);
+    $entity  = $data_store->lookup($key);
 
-    foreach ($result as $users) {
+    if( !is_null($entity) ){
+        if( $password == $entity['password']){
 
-        if ( $password == $users['password'] ){
-            $users->password = (int)$_POST['new_password'];
-            $data_store->update($users);
+            $entity['password'] = (int)$_POST['new_password'];
+            $data_store->update($entity);
+
             header('Location: /.*');
             die();
         }
-
-    }
-
-    if( $password != $users['password'] ) {
-        echo "<h3>Incorrect Password</h3>";
+        elseif ( $password != $entity['password'] ) {
+            echo "<h3>Incorrect Password</h3>";
+        }
     }
 }
-
 ?>
 
 <!DOCTYPE html>

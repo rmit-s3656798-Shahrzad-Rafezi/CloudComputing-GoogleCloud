@@ -23,13 +23,14 @@ if( isset($name) && empty($name) ){
 
 elseif ( isset($name) ) {
 
-    $query = $data_store->gqlQuery('SELECT * FROM User WHERE id = @id', ['bindings'=>['id'=>$_SESSION['authenticated']]]);
-    $result = $data_store->runQuery($query);
+    $key = $data_store->key('User', $_SESSION['authenticated']);
+    $entity  = $data_store->lookup($key);
 
-    foreach ($result as $users) {
-        $users->name = $_POST['name'];
+    if( !is_null($entity) ){
+        $entity['name'] = $name;
         $_SESSION['name'] = $_POST['name'];
-        $data_store->update($users);
+
+        $data_store->update($entity);
         header('Location: /main');
         die();
     }
